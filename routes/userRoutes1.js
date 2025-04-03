@@ -252,7 +252,7 @@ router.post("/demo_", async (req, res) => {
     attachments: [
       {
         filename: "image.jpg",
-        path: path.join(__dirname, "../Public/Food_Images", file), // Absolute path
+        path: file,
         cid: "unique@image",
       },
     ],

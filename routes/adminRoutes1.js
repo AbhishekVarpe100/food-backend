@@ -1,27 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const path = require("path");
-
+const { storage } = require("../config/cloudinary");
 const adminControllers = require("../controllers/adminController");
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "Public/Food_Images");
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
+const upload = multer({ storage });
 
-const upload = multer({
-  storage: storage,
-});
-
-router.post("/add-item", upload.single("file"), adminControllers.addItem);
+// Complete the route handler with your controller function
+router.post("/add-item",upload.single('file'),adminControllers.addItem);
 router.get("/get-data-cust", adminControllers.getCustData);
 router.delete("/delete-item/:id", adminControllers.deleteItem);
 router.put("/update-quantity", adminControllers.updateQuantity);

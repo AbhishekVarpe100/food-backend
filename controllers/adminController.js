@@ -1,14 +1,35 @@
 const Cart = require("../models/Cart");
 const Food = require("../models/Food");
 const Order = require("../models/Order");
+const cloudinary = require('cloudinary').v2;
 const fs = require("fs");
 const Suggestion = require("../models/Suggestion");
+
+// In your adminController.js
 exports.addItem = async (req, res) => {
-  const file = req.file.filename;
-  const { food, price, quantity } = req.body;
-  const newItem = await new Food({ name: food, file, price, quantity });
-  await newItem.save();
-  res.json({ msg: "added" });
+  try {
+    // If file is uploaded, req.file will contain the Cloudinary details
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+    const {food,price,quantity}=req.body
+    
+    // Access the Cloudinary URL
+    const imageUrl = req.file.path;
+    const newItem=new Food({name:food,file:imageUrl,price,quantity})
+    newItem.save()
+  
+    // Save your item with the image URL
+    // ...your code to save the item...
+
+    // res.status(201).json({ message: "Item added successfully", imageUrl });
+    
+    res.json({msg:'added'})
+  } catch (error) {
+    console.error("Error adding item:", error);
+    res.status(500).json({ message: "Error adding item", error: error.message });
+  }
+  
 };
 
 exports.getCustData = async (req, res) => {
@@ -19,14 +40,23 @@ exports.getCustData = async (req, res) => {
 exports.deleteItem = async (req, res) => {
   const id = req.params.id;
   const user = await Food.findById(id);
-  fs.unlink(`./Public/Food_Images/${user.file}`, async (err) => {
-    if (err) {
-      console.log(err);
-    } else {
+  const url=user.file
+  let urlArr=url.split("Food_Images")
+  let publicId=`Food_Images${urlArr[1].split('.')[0]}`  
+
+  try{
+    const result = await cloudinary.uploader.destroy(publicId);
+    if (result.result === 'ok') {
       await Food.findByIdAndDelete(id);
-      res.json("deleted");
+      return res.json('deleted');
+    } else {
+      return res.status(400).json({ success: false, message: 'Failed to delete image' });
     }
-  });
+  }
+  catch(err){
+    console.log(err)
+  }
+
 };
 
 exports.updateQuantity = async (req, res) => {
