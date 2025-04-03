@@ -34,7 +34,7 @@ app.use(cors({
 app.use(userRoutes)
 app.use(adminRoutes)
 
-app.get("/get-data-cust", async(res,res)=>{
+app.get("/get-data-cust", async(req,res)=>{
     const data = await Food.find();
   res.json(data);
 });
