@@ -35,10 +35,6 @@ app.use(cors({
 app.use(userRoutes)
 app.use(adminRoutes)
 
-app.get("/get-data-cust", async(req,res)=>{
-    const data = await Food.find();
-  res.json(data);
-});
 
 app.listen(process.env.PORT,()=>{
     console.log(`Server is listening on the port ${process.env.PORT}`)
