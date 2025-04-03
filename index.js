@@ -27,10 +27,11 @@ const userRoutes=require('./routes/userRoutes1')
 const adminRoutes=require('./routes/adminRoutes1')
 // const Connection=require('./Connection')
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow only this origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
-    credentials: true // Enable cookies if needed
-}))
+  origin: ["http://localhost:5173", "https://food-frontend-nine-psi.vercel.app"], // Allow both local and deployed frontend
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true
+}));
+
 app.use(userRoutes)
 app.use(adminRoutes)
 
