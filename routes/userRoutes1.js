@@ -36,8 +36,9 @@ const transporter = nodemailer.createTransport({
 router.post("/register", registerValidator, userController.register);
 
 
-router.get('/test-route',(req,res)=>{
-  res.json("This is a test route")
+router.get('/test-route',async(req,res)=>{
+  const user=await User.find()
+  res.json(user)
 })
 
 router.post("/login", userController.login);
