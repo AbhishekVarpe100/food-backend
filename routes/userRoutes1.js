@@ -34,6 +34,12 @@ const transporter = nodemailer.createTransport({
 
 // register route
 router.post("/register", registerValidator, userController.register);
+
+
+router.get('/test-route',(req,res)=>{
+  res.json("This is a test route")
+})
+
 router.post("/login", userController.login);
 router.post("/post-comment", userController.postComment);
 router.get("/get-orders", userController.getOrder);
