@@ -202,12 +202,12 @@ exports.orderBy=async(req,res)=>{
         console.log("invalid sorting")
     } 
     else if(option=='veg'){
-        const data=await Food.find({category:option})
-        res.json(data)
+        const data1=await Food.find({category:option})
+        res.json(data1)
     }
     else if(option=='non-veg'){
-        const data=await Food.find({category:option})
-        res.json(data)
+        const data2=await Food.find({category:option})
+        res.json(data2)
     }
     else{
         const data=await Food.find().sort({[option]:1}) 
