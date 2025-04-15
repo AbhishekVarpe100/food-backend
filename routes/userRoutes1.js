@@ -38,7 +38,7 @@ router.post("/register", registerValidator, userController.register);
 
 router.get('/test-route',async(req,res)=>{
   const user=await User.find()
-  res.json("Hello")
+  res.json(user)
 })
 
 router.post("/login", userController.login);
