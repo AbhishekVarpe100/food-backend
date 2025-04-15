@@ -209,6 +209,10 @@ exports.orderBy=async(req,res)=>{
         const data2=await Food.find({category:'Non-Veg'})
         res.json(data2)
     }
+    else if(option=='all'){
+        const data3=await Food.find()
+        res.json(data3)
+    }
     else{
         const data=await Food.find().sort({[option]:1}) 
         res.json(data)
